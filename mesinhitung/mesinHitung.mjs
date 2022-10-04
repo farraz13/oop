@@ -32,7 +32,7 @@ export default class MesinHitung {
     square() {
         this.x = Math.pow(this.x, 2);
         return this;
-        // 
+        // untuk mendapatkan jari jari lingkaran
     }
 
     exponent(angka) {
