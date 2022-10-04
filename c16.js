@@ -73,4 +73,4 @@ class CarFactory {
 const mobil = new CarFactory('Supra', 'Alphard')
 
 mobil.produksi(2020);
-mobil.warranty(2025);
+mobil.warranty(2025)
