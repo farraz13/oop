@@ -48,6 +48,6 @@ export default class MesinHitung {
     }
 
     result() {
-        console.log(this.x)
+        console.log(this.x);
     }
 }
