@@ -39,7 +39,7 @@ function menuMahasiswa(){
             HapusMahasiswa()
             break;
             case'5':
-            process.exit()
+            menuUtama()
             break;
         }
     })
