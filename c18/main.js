@@ -42,6 +42,7 @@ function menuMahasiswa(){
             menuUtama()
             break;
         }
+        
     })
 }
 function menuJurusan(){
