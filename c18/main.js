@@ -89,6 +89,7 @@ function menuUtama(users){
             menuKontrak()
             case'6':
             process.exit()
+            break;
         }
     })
 }
