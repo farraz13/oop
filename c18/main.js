@@ -1,5 +1,6 @@
-import readline from 'readline'
-import sqlite3 from 'sqlite3'
+import readline from 'readline';
+import sqlite3 from 'sqlite3';
+
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -14,6 +15,43 @@ function line() {
     console.log('=======================================================')
 }
 
+function menuUtama(users){
+    console.log(`welcome,${users.username}, your acces level ${users.role.toUpperCase()} `)
+    line()
+    console.log(`
+    silahkan pilih opsi dibawah ini :
+    [1]Mahasiswa
+    [2]Jurusan
+    [3]Dosen
+    [4]Mata kuliah
+    [5]Kontrak
+    [6]Keluar
+    `);
+    line();
+    rl.question(`masukkan salah satu no. dari opsi diatas :`, (opsi) =>{
+        switch(opsi){
+            case'1':
+            menuMahasiswa()
+            break;
+            case'2':
+            menuJurusan()
+            break;
+            case'3':
+            menuDosen()
+            break;
+            case'4':    
+            menuMataKuliah()
+            break;
+            case'5':
+            menuKontrak()
+            break;
+            case'6':
+            welcome()
+            break;
+        }
+    })
+}
+
 function menuMahasiswa(){
     console.log(`
     silahkan pilih opsi dibawah ini :
@@ -24,7 +62,7 @@ function menuMahasiswa(){
     [5]Keluar
     `);
     line();
-    rl.question(`masukkan salah satu no. dari opsi diatas`, (opsi) =>{
+    rl.question(`masukkan salah satu no. dari opsi diatas : `, (opsi) =>{
         switch(opsi){
             case'1':
             DaftarMahasiswa()
@@ -58,41 +96,7 @@ function menuKontrak(){
 
 }
 
-function menuUtama(users){
-    console.log(`welcome,${users.username}, your acces level ${users.role.toUpperCase()} `)
-    line()
-    console.log(`
-    silahkan pilih opsi dibawah ini :
-    [1]Mahasiswa
-    [2]Jurusan
-    [3]Dosen
-    [4]Mata kuliah
-    [5]Kontrak
-    [6]Keluar
-    `);
-    line();
-    rl.question(`masukkan salah satu no. dari opsi diatas`, (opsi) =>{
-        switch(opsi){
-            case'1':
-            menuMahasiswa()
-            break;
-            case'2':
-            menuJurusan()
-            break;
-            case'3':
-            menuDosen()
-            break;
-            case'4':
-            menuMataKuliah()
-            break;
-            case'5':
-            menuKontrak()
-            case'6':
-            process.exit()
-            break;
-        }
-    })
-}
+
 
 function welcome() {
     line()
@@ -102,15 +106,18 @@ function welcome() {
     askUsername(function (username) {
         db.all(`SELECT * FROM users WHERE username =?`, [username], (err, data) => {
             if (err)
-                return console.log('username tidak ditemukan', err)
-            if (data.length == 0) {
+             return console.log('username tidak ditemukan', err)
+                
+            else if (data.length == 0) {
                 console.log(`username ${username} tidak terdaftar`)
+                askUsername()
             }
             askPassword(function(password){
                 if(data[0].password === password){
                     menuUtama(data[0])
                 }else{
                     console.log('password salah')
+                    askPassword()
                 }
             })
 
@@ -122,7 +129,6 @@ function askUsername(callback) {
     rl.question('username :', (username) => {
         callback(username)
     })
-
 }
 
 function askPassword(callback) {
