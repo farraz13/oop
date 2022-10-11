@@ -15,8 +15,17 @@ function line() {
     console.log('=======================================================')
 }
 
-function menuUtama(users){
-    console.log(`welcome,${users.username}, your acces level ${users.role.toUpperCase()} `)
+function welcome() {
+    line()
+    console.log('welcome to Institut Pertanian Bogor')
+    console.log('Kampus IPB, Jl. Raya Dramaga, Babakan, Kec. Dramaga, Kabupaten Bogor, Jawa Barat 16680')
+    line()
+    askUsername(function(username) {
+        
+    })
+}
+
+function menuUtama() {
     line()
     console.log(`
     silahkan pilih opsi dibawah ini :
@@ -28,31 +37,31 @@ function menuUtama(users){
     [6]Keluar
     `);
     line();
-    rl.question(`masukkan salah satu no. dari opsi diatas :`, (opsi) =>{
-        switch(opsi){
-            case'1':
-            menuMahasiswa()
-            break;
-            case'2':
-            menuJurusan()
-            break;
-            case'3':
-            menuDosen()
-            break;
-            case'4':    
-            menuMataKuliah()
-            break;
-            case'5':
-            menuKontrak()
-            break;
-            case'6':
-            welcome()
-            break;
+    rl.question(`masukkan salah satu no. dari opsi diatas :`, (opsi) => {
+        switch (opsi) {
+            case '1':
+                menuMahasiswa()
+                break;
+            case '2':
+                menuJurusan()
+                break;
+            case '3':
+                menuDosen()
+                break;
+            case '4':
+                menuMataKuliah()
+                break;
+            case '5':
+                menuKontrak()
+                break;
+            case '6':
+                welcome()
+                break;
         }
     })
 }
 
-function menuMahasiswa(){
+function menuMahasiswa() {
     console.log(`
     silahkan pilih opsi dibawah ini :
     [1]Daftar Mahasiswa
@@ -62,78 +71,65 @@ function menuMahasiswa(){
     [5]Keluar
     `);
     line();
-    rl.question(`masukkan salah satu no. dari opsi diatas : `, (opsi) =>{
-        switch(opsi){
-            case'1':
-            DaftarMahasiswa()
-            break;
-            case'2':
-            CariMahasiswa()
-            break;
-            case'3':
-            TambahMahasiswa()
-            break;
-            case'4':
-            HapusMahasiswa()
-            break;
-            case'5':
-            menuUtama()
-            break;
+    rl.question(`masukkan salah satu no. dari opsi diatas : `, (opsi) => {
+        switch (opsi) {
+            case '1':
+                DaftarMahasiswa()
+                break;
+            case '2':
+                CariMahasiswa()
+                break;
+            case '3':
+                TambahMahasiswa()
+                break;
+            case '4':
+                HapusMahasiswa()
+                break;
+            case '5':
+                menuUtama()
+                break;
         }
-        
+
     })
 }
-function menuJurusan(){
+function menuJurusan() {
 
 }
-function menuDosen(){
+function menuDosen() {
 
 }
-function menuMataKuliah(){
+function menuMataKuliah() {
 
 }
-function menuKontrak(){
+function menuKontrak() {
 
 }
 
-
-
-function welcome() {
-    line()
-    console.log('welcome to Institut Pertanian Bogor')
-    console.log('Kampus IPB, Jl. Raya Dramaga, Babakan, Kec. Dramaga, Kabupaten Bogor, Jawa Barat 16680')
-    line()
-    askUsername(function (username) {
+function askUsername() {
+    rl.question('username :', (username) => {
         db.all(`SELECT * FROM users WHERE username =?`, [username], (err, data) => {
-            if (err)
-             return console.log('username tidak ditemukan', err)
-                
-            else if (data.length == 0) {
-                console.log(`username ${username} tidak terdaftar`)
+            if (err){ 
+                console.log('username tidak ditemukan', err)
+                process.exit(1)
+        }
+            if (data.length == 0) {
+                console.log(' username tidak terdaftar', err)
                 askUsername()
             }
-            askPassword(function(password){
-                if(data[0].password === password){
-                    menuUtama(data[0])
-                }else{
-                    console.log('password salah')
-                    askPassword()
-                }
-            })
-
+            askPassword(data[0])
         })
     })
 }
 
-function askUsername(callback) {
-    rl.question('username :', (username) => {
-        callback(username)
-    })
-}
-
-function askPassword(callback) {
+function askPassword(user) {
     rl.question('password :', (password) => {
-        callback(password)
+        if(password == user.password){
+            console.log(`welcome,${user.username}, your acces level ${user.role.toUpperCase()} `)
+            menuUtama()
+        }else{
+            console.log('password salah')
+            askPassword(user)
+        }
     })
 }
 
