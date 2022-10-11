@@ -1,4 +1,4 @@
-import {rl} from '../main.js'
+import { rl } from '../main.js'
 import Table from 'cli-table';
 import jurusan from '../models/jurusan'
 
@@ -127,7 +127,7 @@ function menuJurusan() {
 }
 
 function daftarJurusan() {
-    jurusan.read(function(err, data){
+    jurusan.read(function (err, data) {
         if (err) {
             console.log('gagal cari Jurusan', err)
             process.exit(1)
@@ -142,11 +142,11 @@ function daftarJurusan() {
         console.log(tableJurusan.toString())
         menuJurusan()
     })
-    }
+}
 
 function cariJurusan() {
     rl.question('Masukkan Kode Jurusan : ', (kode) => {
-        db.all('select * from jurusan WHERE id_jurusan = ?', [kode], (err, data) => {
+        jurusan.search(kode, (err, data) => {
             if (err) {
                 console.log('gagal cari Jurusan', err)
                 process.exit(1)
@@ -167,14 +167,14 @@ Id Jurusan : ${data[0].id_jurusan}
 
 function tambahJurusan() {
     rl.question('masukkan nama jurusan : ', (nama_jurusan) => {
-    rl.question('Masukkan Kode Jurusan : ', (id_jurusan) => {
+        rl.question('Masukkan Kode Jurusan : ', (id_jurusan) => {
             db.run('INSERT INTO jurusan (nama_jurusan, id_jurusan) VALUES (?, ?)', [nama_jurusan, id_jurusan], (err) => {
                 if (err) {
                     console.log('gagal cari Jurusan', err)
                     process.exit(1)
                 }
                 console.log('jurusan telah ditambahkan')
-                    daftarJurusan()
+                daftarJurusan()
             })
         })
     })
@@ -182,15 +182,15 @@ function tambahJurusan() {
 
 function hapusJurusan() {
     rl.question('Masukkan Kode Jurusan : ', (id_jurusan) => {
-            db.run('DELETE FROM jurusan WHERE id_jurusan = ?', [id_jurusan],(err) => {
-                if (err) {
-                    console.log('gagal hapus Jurusan', err)
-                    menuJurusan()
-                }
-                console.log('jurusan telah di Hapus')
-                    daftarJurusan()
-            })
+        jurusan.remove(id_jurusan,(err) => {
+            if (err) {
+                console.log('gagal hapus Jurusan', err)
+                menuJurusan()
+            }
+            console.log('jurusan telah di Hapus')
+            daftarJurusan()
         })
+    })
 }
 
 function menuDosen() {

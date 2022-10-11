@@ -13,21 +13,16 @@ export default class jurusan {
             callback(err)
         });
     }
-    static add(){
-        db.all('select * from jurusan', (err, data) => {
+    
+    static search(id, callback){
+        db.all('select * from jurusan WHERE id_jurusan = ?',[id], (err, data) => {
             callback(err, data)
         });
     }
 
-    static search(){
-        db.all('select * from jurusan', (err, data) => {
-            callback(err, data)
-        });
-    }
-
-    static remove(){
-        db.all('select * from jurusan', (err, data) => {
-            callback(err, data)
+    static remove(id_jurusan, callback){
+        db.run('DELETE FROM jurusan WHERE id_jurusan = ?', [id_jurusan],(err) => {
+            callback(err)
         });
     }
 }
