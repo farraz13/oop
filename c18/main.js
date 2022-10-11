@@ -1,5 +1,11 @@
 import readline from 'readline';
 import sqlite3 from 'sqlite3';
+import Table from 'cli-table';
+
+var tableJurusan = new Table({
+    head: ['Id Jurusan', 'Nama Jurusan']
+    , colWidths: [20, 50]
+});
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -20,8 +26,8 @@ function welcome() {
     console.log('welcome to Institut Pertanian Bogor')
     console.log('Kampus IPB, Jl. Raya Dramaga, Babakan, Kec. Dramaga, Kabupaten Bogor, Jawa Barat 16680')
     line()
-    askUsername(function(username) {
-        
+    askUsername(function (username) {
+
     })
 }
 
@@ -93,8 +99,71 @@ function menuMahasiswa() {
     })
 }
 function menuJurusan() {
-
+    console.log(`
+    silahkan pilih opsi dibawah ini :
+    [1]Daftar Jurusan
+    [2]Cari Jurusan
+    [3]Tambah Jurusan
+    [4]Hapus Jurusan
+    [5]Keluar
+    `);
+    line();
+    rl.question(`masukkan salah satu no. dari opsi diatas : `, (opsi) => {
+        switch (opsi) {
+            case '1':
+                daftarJurusan()
+                break;
+            case '2':
+                cariJurusan()
+                break;
+            case '3':
+                tambahJurusan()
+                break;
+            case '4':
+                hapusJurusan()
+                break;
+            case '5':
+                menuUtama()
+                break;
+        }
+    })
 }
+
+function daftarJurusan() {
+    db.all('select * from jurusan', (err, data) => {
+        if (err) {
+            console.log('gagal cari Jurusan', err)
+            process.exit(1)
+        }
+        data.forEach(item => {
+            tableJurusan.push([item.id_jurusan, item.nama_jurusan])
+        })
+        console.log(tableJurusan.toString())
+        menuJurusan()
+    })
+}
+
+function cariJurusan() {
+    rl.question('Masukkan Kode Jurusan : ', (kode) => {
+        db.all('select * from jurusan WHERE id_jurusan = ?', [kode], (err, data) => {
+            if (err) {
+                console.log('gagal cari Jurusan', err)
+                process.exit(1)
+            }
+            if (data.length == 0) {
+                menuJurusan()
+            } else {
+                console.log(`
+Hasil pencarian dengan id jurusan '${kode}' :
+Id Jurusan   : ${data[0].id_jurusan}
+Nama Jurusan : ${data[0].nama_jurusan}
+            `)
+            menuJurusan()
+            }
+        })
+    })
+}
+
 function menuDosen() {
 
 }
@@ -108,10 +177,10 @@ function menuKontrak() {
 function askUsername() {
     rl.question('username :', (username) => {
         db.all(`SELECT * FROM users WHERE username =?`, [username], (err, data) => {
-            if (err){ 
+            if (err) {
                 console.log('username tidak ditemukan', err)
                 process.exit(1)
-        }
+            }
             if (data.length == 0) {
                 console.log(' username tidak terdaftar', err)
                 askUsername()
@@ -123,10 +192,10 @@ function askUsername() {
 
 function askPassword(user) {
     rl.question('password :', (password) => {
-        if(password == user.password){
+        if (password == user.password) {
             console.log(`welcome,${user.username}, your acces level ${user.role.toUpperCase()} `)
             menuUtama()
-        }else{
+        } else {
             console.log('password salah')
             askPassword(user)
         }
