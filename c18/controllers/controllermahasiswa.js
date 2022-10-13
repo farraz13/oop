@@ -38,7 +38,7 @@ export default class controllermahasiswa {
                 process.exit(1)
             }
             const tableMahasiswa = new Table({
-                head: ['NIM', 'Nama, Alamat, Jurusan']
+                head: ['NIM', 'Nama', 'Alamat', 'Jurusan']
                 , colWidths: [20, 30, 50, 30]
             });
             data.forEach(item => {
