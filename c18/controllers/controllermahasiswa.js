@@ -39,7 +39,7 @@ export default class controllermahasiswa {
             }
             const tableMahasiswa = new Table({
                 head: ['NIM', 'Nama', 'Alamat', 'Jurusan']
-                , colWidths: [20, 30, 50, 30]
+                , colWidths: [20, 30, 30, 30]
             });
             data.forEach(item => {
                 tableMahasiswa.push([item.nim, item.nama, item.alamat, item.jurusan])
