@@ -1,8 +1,9 @@
 import main, { rl } from '../main.js'
 import Table from 'cli-table';
 import mahasiswa from '../models/mahasiswa.js'
-import mahasiswaview from '../views/mahasiswaview.js';
+
 import indexview from '../views/indexview.js';
+import mahasiswaview from '../views/mahasiswaview.js';
 
 export default class controllermahasiswa {
 
@@ -37,11 +38,11 @@ export default class controllermahasiswa {
                 process.exit(1)
             }
             const tableMahasiswa = new Table({
-                head: ['Id Mahasiswa', 'Nama Mahasiswa']
-                , colWidths: [20, 50]
+                head: ['NIM', 'Nama, Alamat, Jurusan']
+                , colWidths: [20, 30, 50, 30]
             });
             data.forEach(item => {
-                tableMahasiswa.push([item.id_mahasiswa, item.nama_mahasiswa])
+                tableMahasiswa.push([item.nim, item.nama, item.alamat, item.jurusan])
             })
             console.log(tableMahasiswa.toString())
             controllermahasiswa.menuMahasiswa()
@@ -49,16 +50,17 @@ export default class controllermahasiswa {
     }
 
     static cariMahasiswa() {
-        rl.question('Masukkan Kode Mahasiswa : ', (id_mahasiswa) => {
-            mahasiswa.search(id_mahasiswa, (err, data) => {
+        rl.question('Masukkan Kode Mahasiswa : ', (nim) => {
+            mahasiswa.search(nim, (err, data) => {
                 if (err) {
                     console.log('gagal cari Mahasiswa', err)
                     process.exit(1)
                 }
                 if (data.length == 0) {
+                    console.log('data tidak ditemukan')
                     controllermahasiswa.menuMahasiswa()
                 } else {
-                    mahasiswaview.detail(id_mahasiswa, data[0])
+                    mahasiswaview.detail(nim, data[0])
                     controllermahasiswa.menuMahasiswa()
                 }
             })
@@ -67,24 +69,28 @@ export default class controllermahasiswa {
 
     static tambahMahasiswa() {
         rl.question('masukkan nama mahasiswa : ', (nama_mahasiswa) => {
-            rl.question('Masukkan Kode Mahasiswa : ', (id_mahasiswa) => {
-                mahasiswa.add(nama_mahasiswa, id_mahasiswa, (err) => {
-                    if (err) {
-                        console.log('gagal cari Mahasiswa', err)
-                        controllermahasiswa.tambahMahasiswa()
-                        process.exit(1)
-                    } else {
-                        console.log('mahasiswa telah ditambahkan')
-                        controllermahasiswa.daftarMahasiswa()
-                    }
+            rl.question('Masukkan alamat : ', (Alamat) => {
+                rl.question('Masukkan jurusan mahasiswa : ', (jurusan) => {
+                    rl.question('Masukkan NIM : ', (nim) => {
+                        mahasiswa.add(nama_mahasiswa,Alamat, jurusan,nim, (err) => {
+                            if (err) {
+                                console.log('gagal tambah Mahasiswa', err)
+                                controllermahasiswa.tambahMahasiswa()
+                                process.exit(1)
+                            } else {
+                                console.log('mahasiswa telah ditambahkan')
+                                controllermahasiswa.daftarMahasiswa()
+                            }
+                        })
+                    })
                 })
             })
         })
     }
 
     static hapusMahasiswa() {
-        rl.question('Masukkan Nama Mahasiswa : ', (id_mahasiswa) => {
-            mahasiswa.remove(id_mahasiswa, (err) => {
+        rl.question('Masukkan Nama Mahasiswa : ', (nim) => {
+            mahasiswa.remove(nim, (err) => {
                 if (err) {
                     console.log('gagal hapus Mahasiswa', err)
                     controllermahasiswa.menuMahasiswa()

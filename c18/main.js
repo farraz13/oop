@@ -3,6 +3,7 @@ import readline from 'readline'
 import indexview from './views/indexview.js'
 import usercontroller from './controllers/usercontroller.js'
 import controllerjurusan from './controllers/controllerjurusan.js'
+import controllermahasiswa from './controllers/controllermahasiswa.js'
 
 export const db = new sqlite3.Database('university.db', sqlite3.OPEN_READWRITE, err => {
     if (err) {
@@ -23,7 +24,7 @@ export default class main {
         rl.question(`masukkan salah satu no. dari opsi diatas :`, (opsi) => {
             switch (opsi) {
                 case '1':
-                    controllerjurusan.menuMahasiswa()
+                   controllermahasiswa.menuMahasiswa()
                     break;
                 case '2':
                     controllerjurusan.menuJurusan()
