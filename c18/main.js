@@ -1,7 +1,8 @@
 import sqlite3 from 'sqlite3'
 import readline from 'readline'
-import indexview from './views/indexview'
-import usercontroller from './controllers/usercontroller'
+import indexview from './views/indexview.js'
+import usercontroller from './controllers/usercontroller.js'
+import controllerjurusan from './controllers/controllerjurusan.js'
 
 export const db = new sqlite3.Database('university.db', sqlite3.OPEN_READWRITE, err => {
     if (err) {
@@ -22,28 +23,27 @@ export default class main {
         rl.question(`masukkan salah satu no. dari opsi diatas :`, (opsi) => {
             switch (opsi) {
                 case '1':
-                    menuMahasiswa()
+                    controllerjurusan.menuMahasiswa()
                     break;
                 case '2':
-                    menuJurusan()
+                    controllerjurusan.menuJurusan()
                     break;
                 case '3':
-                    menuDosen()
+                    //menuDosen()
                     break;
                 case '4':
-                    menuMataKuliah()
+                    //menuMataKuliah()
                     break;
                 case '5':
-                    menuKontrak()
+                    //menuKontrak()
                     break;
                 case '6':
-                    welcome()
-                    break;
+                    main.login()
             }
         })
     }
 
-    static run() {
+    static login() {
         indexview.line()
         indexview.welcome()
         indexview.line()
@@ -51,4 +51,4 @@ export default class main {
     }
 }
 
-main.run()
+main.login()

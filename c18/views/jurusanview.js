@@ -9,11 +9,11 @@ export default class jurusanview {
     [5]Keluar
     `);
     }
-    static detail(jurusan) {
+    static detail(id_jurusan, jurusan) {
         console.log(`
-Hasil pencarian dengan id jurusan '${kode}' :
-Nama Jurusan   : ${jurusan[0].nama_jurusan}
-Id Jurusan     : ${jurusan[0].id_jurusan}
+Hasil pencarian dengan id jurusan '${id_jurusan}' :
+Nama Jurusan   : ${jurusan.nama_jurusan}
+Id Jurusan     : ${jurusan.id_jurusan}
             `)
     }
 }

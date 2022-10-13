@@ -1,3 +1,6 @@
+import user from '../models/user.js'
+import main, { rl } from  '../main.js'
+
 export default class usercontroller{
     static askUsername() {
         rl.question('username :', (username) => {
@@ -8,9 +11,9 @@ export default class usercontroller{
                 }
                 if (data.length == 0) {
                     console.log(' username tidak terdaftar', err)
-                    askUsername()
+                    usercontroller.askUsername()
                 }
-                askPassword(data[0])
+                usercontroller.askPassword(data[0])
             })
         })
     }
@@ -19,10 +22,10 @@ export default class usercontroller{
         rl.question('password :', (password) => {
             if (password == user.password) {
                 console.log(`welcome,${user.username}, your acces level ${user.role.toUpperCase()} `)
-                menuUtama()
+               main.menuUtama()
             } else {
                 console.log('password salah')
-                askPassword(user)
+                usercontroller.askPassword(user)
             }
         })
     }

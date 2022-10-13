@@ -6,8 +6,8 @@ export default class jurusan {
             callback(err, data)
         });
     }
-    static add(id, nama, callback){
-        db.all('INSERT INTO jurusan (nama_jurusan, id_jurusan) VALUES(?, ?)',[id, nama], (err) => {
+    static add(nim, nama, callback){
+        db.all('INSERT INTO jurusan (nama_jurusan, id_jurusan) VALUES(?, ?)',[nim, nama], (err) => {
             callback(err)
         });
     }
