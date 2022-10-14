@@ -5,6 +5,8 @@ import usercontroller from './controllers/usercontroller.js'
 import controllerjurusan from './controllers/controllerjurusan.js'
 import controllermahasiswa from './controllers/controllermahasiswa.js'
 import controllerdosen from './controllers/controllerdosen.js'
+import controllermatkul from './controllers/controllermatkul.js'
+import controllerkhs from './controllers/controllerkhs.js'
 
 export const db = new sqlite3.Database('university.db', sqlite3.OPEN_READWRITE, err => {
     if (err) {
@@ -34,10 +36,10 @@ export default class main {
                     controllerdosen.menuDosen()
                     break;
                 case '4':
-                    //menuMataKuliah()
+                    controllermatkul.menuMatkul()
                     break;
                 case '5':
-                    //menuKontrak()
+                    controllerkhs.menuKhs()
                     break;
                 case '6':
                     main.login()
