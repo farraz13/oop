@@ -12,7 +12,7 @@ export default class mahasiswaview {
     static detail(nim, mahasiswa) {
         console.log(`
 Hasil pencarian dengan NIM '${nim}' :
-Nama Mahasiswa   : ${mahasiswa.nama_mahasiswa}
+Nama Mahasiswa   : ${mahasiswa.nama}
 Alamat           : ${mahasiswa.alamat}
 Jurusan          : ${mahasiswa.jurusan}
 NIM              : ${mahasiswa.nim}

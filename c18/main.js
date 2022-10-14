@@ -4,6 +4,7 @@ import indexview from './views/indexview.js'
 import usercontroller from './controllers/usercontroller.js'
 import controllerjurusan from './controllers/controllerjurusan.js'
 import controllermahasiswa from './controllers/controllermahasiswa.js'
+import controllerdosen from './controllers/controllerdosen.js'
 
 export const db = new sqlite3.Database('university.db', sqlite3.OPEN_READWRITE, err => {
     if (err) {
@@ -30,7 +31,7 @@ export default class main {
                     controllerjurusan.menuJurusan()
                     break;
                 case '3':
-                    //menuDosen()
+                    controllerdosen.menuDosen()
                     break;
                 case '4':
                     //menuMataKuliah()
